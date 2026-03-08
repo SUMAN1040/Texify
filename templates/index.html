@@ -1,0 +1,182 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Bootstrap demo</title>
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+      integrity="sha384-sRIl4kxILFvY47J16cr9ZwB07vP4J8+LH7qKQnuqkuIAvNWLzeN8tE5YBujZqJLB"
+      crossorigin="anonymous"
+    />
+  </head>
+
+  <body>
+    <!-- Adding Navbar through Bootstrap -->
+    <nav class="navbar navbar-expand-lg bg-dark navbar-dark">
+      <div class="container-fluid">
+        <a class="navbar-brand" href="#">Texify</a>
+        <button
+          class="navbar-toggler"
+          type="button"
+          data-bs-toggle="collapse"
+          data-bs-target="#navbarSupportedContent"
+          aria-controls="navbarSupportedContent"
+          aria-expanded="false"
+          aria-label="Toggle navigation"
+        >
+          <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+          <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+            <li class="nav-item">
+              <a
+                class="nav-link active"
+                aria-current="page"
+                href="{% url 'home' %}"
+                >Home</a
+              >
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="#">About</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="#">Text Analyzer</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="#">Websites</a>
+            </li>
+          </ul>
+          <form class="d-flex" role="search">
+            <input
+              class="form-control me-2"
+              type="search"
+              placeholder="Search"
+              aria-label="Search"
+            />
+            <button class="btn btn-outline-success" type="submit">
+              Search
+            </button>
+          </form>
+        </div>
+      </div>
+    </nav>
+
+    <!-- Adding Alert -->
+    <div class="alert alert-success alert-dismissible fade show" role="alert">
+      <strong>Ni Hao!</strong> You should check in on some of those fields
+      below.
+      <button
+        type="button"
+        class="btn-close"
+        data-bs-dismiss="alert"
+        aria-label="Close"
+      ></button>
+    </div>
+
+    <!-- Adding Input Groups through Bootstrap -->
+    <div class="container">
+      <form action="/removePunc/" method="post">
+        {% csrf_token %}
+        <div class="container mt-4 d-flex justify-content-center">
+          <div
+            class="card shadow-lg border-0 p-4"
+            style="max-width: 80vw; width: 100%; border-radius: 10px"
+          >
+            <h5 class="text-center mb-3">💻 Input your Thinking</h5>
+
+            <div class="form-group">
+              <label class="form-label fw-semibold"> </label>
+
+              <textarea
+                name="Info"
+                id="inputInfo"
+                class="form-control rounded-4 p-3 shadow-sm"
+                rows="10"
+                placeholder="Enter your text here..."
+                style="resize: none"
+              ></textarea>
+            </div>
+
+            <!-- Add a switch to the form -->
+            <!-- First -->
+            <div class="form-check form-switch mt-3">
+              <input
+                class="form-check-input"
+                name="remove"
+                type="checkbox"
+                role="switch"
+                id="switchCheckDefault1"
+              />
+              <label class="form-check-label" for="switchCheckDefault1"
+                >Remove Punctuations
+              </label>
+            </div>
+            <!-- Second -->
+            <div class="form-check form-switch">
+              <input
+                class="form-check-input"
+                name="fullCaps"
+                type="checkbox"
+                role="switch"
+                id="switchCheckDefault2"
+              />
+              <label class="form-check-label" for="switchCheckDefault2"
+                >Full Capitalization</label
+              >
+            </div>
+            <!-- Third -->
+            <div class="form-check form-switch">
+              <input
+                class="form-check-input"
+                name="lineRemover"
+                type="checkbox"
+                role="switch"
+                id="switchCheckDefault3"
+              />
+              <label class="form-check-label" for="switchCheckDefault3"
+                >New Line Remover</label
+              >
+            </div>
+            <!-- Fourth -->
+            <div class="form-check form-switch">
+              <input
+                class="form-check-input"
+                name="spaceRemover"
+                type="checkbox"
+                role="switch"
+                id="switchCheckDefault4"
+              />
+              <label class="form-check-label" for="switchCheckDefault4"
+                >Extra Space Remover</label
+              >
+            </div>
+            <!-- Fifth -->
+            <div class="form-check form-switch">
+              <input
+                class="form-check-input"
+                name="charCount"
+                type="checkbox"
+                role="switch"
+                id="switchCheckDefault5"
+              />
+              <label class="form-check-label" for="switchCheckDefault5"
+                >Character Counter</label
+              >
+            </div>
+            <button class="btn btn-primary w-100 mt-4 rounded-2" type="submit">
+              Analyze Text 🔍
+            </button>
+          </div>
+        </div>
+      </form>
+    </div>
+
+    <script
+      src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js"
+      integrity="sha384-FKyoEForCGlyvwx9Hj09JcYn3nv7wiPVlz7YYwJrWVcXK/BmnVDxM+D2scQbITxI"
+      crossorigin="anonymous"
+    ></script>
+  </body>
+</html>
