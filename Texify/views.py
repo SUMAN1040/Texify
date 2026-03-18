@@ -15,51 +15,59 @@ def removePunch(request):
     extraSpaceRemover = request.POST.get('spaceRemover', 'off')
     charCounts = request.POST.get('charCount', 'off')
 
+    if not djText.strip():
+        from django.http import HttpResponse
+        return HttpResponse("Please enter some text to analyze.")
+
+    purposes = []
+    analyzed = djText
+
     if removepunc == "on":
-        punctuations = '''!()-[]{};:'"\,<>./?@#$%^&*_~'''
-        analyzed = ""
-
-        for char in djText:
+        punctuations = '''!()-[]{};:'"\\,<>./?@#$%^&*_~'''
+        temp = ""
+        for char in analyzed:
             if char not in punctuations:
-                analyzed += char
-
-        djText = analyzed
-        params = {'purpose': 'Removed Punctuation', 'analyzed_text': analyzed}
+                temp += char
+        analyzed = temp
+        purposes.append('Removed Punctuation')
 
     if fullCap == "on":
-        analyzed = djText.upper()
-        djText = analyzed
-        params = {'purpose': 'Full Capitalization', 'analyzed_text': analyzed}
+        analyzed = analyzed.upper()
+        purposes.append('Full Capitalization')
 
     if lineRemover == "on":
-        analyzed = ""
-        for char in djText:
+        temp = ""
+        for char in analyzed:
             if char != "\n" and char != "\r":
-                analyzed += char
-
-        djText = analyzed
-        params = {'purpose': 'Remove New Lines', 'analyzed_text': analyzed}
+                temp += char
+        analyzed = temp
+        purposes.append('Remove New Lines')
 
     if extraSpaceRemover == "on":
-        analyzed = ""
-        for index, char in enumerate(djText):
-            if index < len(djText)-1 and djText[index] == " " and djText[index+1] == " ":
+        temp = ""
+        for index, char in enumerate(analyzed):
+            if index < len(analyzed)-1 and analyzed[index] == " " and analyzed[index+1] == " ":
                 pass
             else:
-                analyzed += char
+                temp += char
+        analyzed = temp
+        purposes.append('Remove Extra Spaces')
 
-        djText = analyzed
-        params = {'purpose': 'Remove Extra Spaces', 'analyzed_text': analyzed}
-
+    char_count = None
     if charCounts == "on":
-        count = len(djText.replace(" ", ""))
-        params = {
-            'purpose': 'Character Count',
-            'analyzed_text': djText,
-            'char_count': count
-        }
+        char_count = len(analyzed.replace(" ", ""))
+        purposes.append('Character Count')
 
-    if(removepunc != "on" and fullCap != "on" and lineRemover != "on" and extraSpaceRemover != "on" and charCounts != "on"):
+    if not purposes:
+        from django.http import HttpResponse
         return HttpResponse("Please select any operation and try again")
+
+    params = {
+        'purpose': ', '.join(purposes),
+        'analyzed_text': analyzed,
+    }
+    if char_count is not None:
+        params['char_count'] = char_count
+
 
     return render(request, 'analyze.html', params)

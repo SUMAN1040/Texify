@@ -1,72 +1,147 @@
+{% load static %}
 <!doctype html>
 <html lang="en">
-
-<head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Bootstrap demo</title>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet"
-        integrity="sha384-sRIl4kxILFvY47J16cr9ZwB07vP4J8+LH7qKQnuqkuIAvNWLzeN8tE5YBujZqJLB" crossorigin="anonymous">
-</head>
-
-
-
-<body>
-    <!-- Adding Navbar through Bootstrap -->
-    <nav class="navbar navbar-expand-lg bg-dark navbar-dark">
-        <div class="container-fluid">
-            <a class="navbar-brand" href="#">Texify</a>
-            <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
-                data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false"
-                aria-label="Toggle navigation">
-                <span class="navbar-toggler-icon"></span>
-            </button>
-            <div class="collapse navbar-collapse" id="navbarSupportedContent">
-                <ul class="navbar-nav me-auto mb-2 mb-lg-0">
-                    <li class="nav-item">
-                        <a class="nav-link active" aria-current="page" href="#">Home</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="#">About</a>
-                    </li>
-                    <li class="nav-item">
-                    <a class="nav-link" href="#">Text Analyzer</a>
-                    </li>
-                    <li class="nav-item">
-                    <a class="nav-link" href="#">Websites</a>
-                    </li>
-                </ul>
-                <form class="d-flex" role="search">
-                    <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search" />
-                    <button class="btn btn-outline-success" type="submit">Search</button>
-                </form>
-            </div>
-        </div>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Texify - Results</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet" />
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Fira+Code:wght@400;500&display=swap" rel="stylesheet">
+    <link href="{% static 'css/styles.css' %}" rel="stylesheet" />
+    <style>
+      .btn-outline-light {
+        color: var(--text-muted);
+        border-color: var(--glass-border);
+      }
+      .btn-outline-light:hover {
+        background-color: rgba(255,255,255,0.1);
+        color: var(--text-main);
+      }
+    </style>
+  </head>
+  <body>
+    <!-- Custom Navbar -->
+    <nav class="navbar navbar-expand-lg navbar-dark navbar-custom sticky-top">
+      <div class="container-fluid">
+        <a class="navbar-brand" href="{% url 'home' %}">Texify</a>
+        <button id="themeToggle" class="btn rounded-circle shadow-sm ms-auto" style="width: 40px; height: 40px; display: flex; align-items: center; justify-content: center; background: var(--switch-bg); border: 1px solid var(--glass-border); color: var(--text-main);">
+          <svg id="sunIcon" xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-sun-fill" viewBox="0 0 16 16">
+            <path d="M8 12a4 4 0 1 0 0-8 4 4 0 0 0 0 8zM8 0a.5.5 0 0 1 .5.5v2a.5.5 0 0 1-1 0v-2A.5.5 0 0 1 8 0zm0 13a.5.5 0 0 1 .5.5v2a.5.5 0 0 1-1 0v-2A.5.5 0 0 1 8 13zm8-5a.5.5 0 0 1-.5.5h-2a.5.5 0 0 1 0-1h2a.5.5 0 0 1 .5.5zM3 8a.5.5 0 0 1-.5.5h-2a.5.5 0 0 1 0-1h2A.5.5 0 0 1 3 8zm10.657-5.657a.5.5 0 0 1 0 .707l-1.414 1.415a.5.5 0 1 1-.707-.708l1.414-1.414a.5.5 0 0 1 .707 0zm-9.193 9.193a.5.5 0 0 1 0 .707L3.05 13.657a.5.5 0 0 1-.707-.707l1.414-1.414a.5.5 0 0 1 .707 0zm9.193 2.121a.5.5 0 0 1-.707 0l-1.414-1.414a.5.5 0 0 1 .707-.707l1.414 1.414a.5.5 0 0 1 0 .707zM4.464 4.465a.5.5 0 0 1-.707 0L2.343 3.05a.5.5 0 1 1 .707-.707l1.414 1.414a.5.5 0 0 1 0 .708z"/>
+          </svg>
+          <svg id="moonIcon" xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-moon-fill d-none" viewBox="0 0 16 16">
+            <path d="M6 .278a.768.768 0 0 1 .08.858 7.208 7.208 0 0 0-.878 3.46c0 4.021 3.278 7.277 7.318 7.277.527 0 1.04-.055 1.533-.16a.787.787 0 0 1 .81.316.733.733 0 0 1-.031.893A8.349 8.349 0 0 1 8.344 16C3.734 16 0 12.286 0 7.71 0 4.266 2.114 1.312 5.124.06A.752.752 0 0 1 6 .278z"/>
+          </svg>
+        </button>
+      </div>
     </nav>
 
-    <!-- Adding Alert -->
-    <div class="alert alert-success alert-dismissible fade show" role="alert">
-        <strong>Ni Hao!</strong> Your text has been analyze !!!
-        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+    <div class="container mt-5 mb-5">
+      <div class="row justify-content-center">
+        <div class="col-lg-10">
+          
+          <div class="alert alert-custom alert-dismissible fade show shadow-sm mb-4" role="alert">
+            <strong>Success!</strong> Your text has been analyzed successfully.
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+          </div>
+
+          <div class="glass-card">
+            <div class="d-flex justify-content-between align-items-center mb-4 pb-3 border-bottom" style="border-color: var(--glass-border) !important;">
+              <h3 class="mb-0 fw-bold" style="color: var(--text-main);">Analysis Results</h3>
+              <button class="btn btn-sm btn-outline-light d-flex align-items-center" onclick="copyToClipboard()" id="copyBtn">
+                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-clipboard me-2" viewBox="0 0 16 16">
+                  <path d="M4 1.5H3a2 2 0 0 0-2 2V14a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V3.5a2 2 0 0 0-2-2h-1v1h1a1 1 0 0 1 1 1V14a1 1 0 0 1-1 1H3a1 1 0 0 1-1-1V3.5a1 1 0 0 1 1-1h1v-1z"/>
+                  <path d="M9.5 1a.5.5 0 0 1 .5.5v1a.5.5 0 0 1-.5.5h-3a.5.5 0 0 1-.5-.5v-1a.5.5 0 0 1 .5-.5h3zm-3-1A1.5 1.5 0 0 0 5 1.5v1A1.5 1.5 0 0 0 6.5 4h3A1.5 1.5 0 0 0 11 2.5v-1A1.5 1.5 0 0 0 9.5 0h-3z"/>
+                </svg>
+                Copy Text
+              </button>
+            </div>
+
+            <div class="row mb-4">
+              <div class="col-md-8">
+                <h6 class="text-uppercase text-muted fw-bold mb-2" style="font-size: 0.85rem; letter-spacing: 0.5px;">Operations Applied</h6>
+                <div>
+                  <span class="badge rounded-pill badge-custom fs-6 fw-normal">{{ purpose }}</span>
+                </div>
+              </div>
+              
+              {% if char_count %}
+              <div class="col-md-4 mt-3 mt-md-0">
+                <h6 class="text-uppercase text-muted fw-bold mb-2" style="font-size: 0.85rem; letter-spacing: 0.5px;">Metrics</h6>
+                <div>
+                  <span class="badge rounded-pill bg-success bg-opacity-25 text-success fs-6 border border-success border-opacity-50 fw-normal px-3 py-2">
+                    Characters: <strong class="ms-1">{{ char_count }}</strong>
+                  </span>
+                </div>
+              </div>
+              {% endif %}
+            </div>
+
+            <div class="mt-4 pt-2">
+              <h6 class="text-uppercase text-muted fw-bold mb-3" style="font-size: 0.85rem; letter-spacing: 0.5px;">Analyzed Output</h6>
+              <div class="results-container shadow-sm" id="resultText">{{ analyzed_text }}</div>
+            </div>
+            
+            <div class="mt-5 text-center">
+              <a href="{% url 'home' %}" class="btn btn-primary-custom px-5 py-2 fs-5">Analyze Another Text</a>
+            </div>
+          </div>
+          
+        </div>
+      </div>
     </div>
 
+    <script>
+      function copyToClipboard() {
+        const text = document.getElementById("resultText").innerText;
+        navigator.clipboard.writeText(text).then(() => {
+          const copyBtn = document.getElementById("copyBtn");
+          const originalHTML = copyBtn.innerHTML;
+          
+          copyBtn.innerHTML = `
+            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-check2 me-2" viewBox="0 0 16 16">
+              <path d="M13.854 3.646a.5.5 0 0 1 0 .708l-7 7a.5.5 0 0 1-.708 0l-3.5-3.5a.5.5 0 1 1 .708-.708L6.5 10.293l6.646-6.647a.5.5 0 0 1 .708 0z"/>
+            </svg>
+            Copied!
+          `;
+          copyBtn.classList.replace('btn-outline-light', 'btn-success');
+          copyBtn.style.color = '#fff';
+          
+          setTimeout(() => {
+            copyBtn.innerHTML = originalHTML;
+            copyBtn.classList.replace('btn-success', 'btn-outline-light');
+            copyBtn.style.color = '';
+          }, 2000);
+        });
+      }
+    </script>
+    <script>
+      const themeToggle = document.getElementById('themeToggle');
+      const sunIcon = document.getElementById('sunIcon');
+      const moonIcon = document.getElementById('moonIcon');
 
+      const storedTheme = localStorage.getItem('theme');
+      if (storedTheme === 'light') {
+        document.documentElement.setAttribute('data-theme', 'light');
+        sunIcon.classList.add('d-none');
+        moonIcon.classList.remove('d-none');
+      }
 
-    <!-- Adding Input Groups through Bootstrap -->
-    <div class="container">
-        <h1>Your Analyzed Text - {{ purpose }}</h1>
-        <p>
-        <pre style="color: rgb(149, 2, 255); font-size: 40px;">
-            {{ analyzed_text }}
-            <p>Character Count: {{ char_count }}</p>
-        </pre>
-        </p>
-    </div>
-
-
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js"
-        integrity="sha384-FKyoEForCGlyvwx9Hj09JcYn3nv7wiPVlz7YYwJrWVcXK/BmnVDxM+D2scQbITxI"
-        crossorigin="anonymous"></script>
-</body>
-
+      themeToggle.addEventListener('click', () => {
+        const currentTheme = document.documentElement.getAttribute('data-theme');
+        if (currentTheme === 'light') {
+          document.documentElement.removeAttribute('data-theme');
+          localStorage.setItem('theme', 'dark');
+          sunIcon.classList.remove('d-none');
+          moonIcon.classList.add('d-none');
+        } else {
+          document.documentElement.setAttribute('data-theme', 'light');
+          localStorage.setItem('theme', 'light');
+          sunIcon.classList.add('d-none');
+          moonIcon.classList.remove('d-none');
+        }
+      });
+    </script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js"></script>
+  </body>
 </html>
